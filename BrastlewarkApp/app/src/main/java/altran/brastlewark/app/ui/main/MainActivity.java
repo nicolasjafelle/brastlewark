@@ -1,7 +1,9 @@
 package altran.brastlewark.app.ui.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -9,6 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+
+import java.util.List;
 
 import altran.brastlewark.app.R;
 import altran.brastlewark.app.domain.Citizen;
@@ -21,6 +25,8 @@ import altran.brastlewark.app.ui.view.MaterialSearchView;
  */
 
 public class MainActivity extends AbstractAppCompatActivity implements MainFragment.Callback {
+
+    public final static int SPEECH_RESULT_CODE = 444;
 
     private MaterialSearchView searchView;
 
@@ -97,6 +103,20 @@ public class MainActivity extends AbstractAppCompatActivity implements MainFragm
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MaterialSearchView.REQUEST_VOICE && resultCode == Activity.RESULT_OK) {
+
+            List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (results != null && results.size() > 0) {
+                String searchWrd = results.get(0);
+                searchView.searchSrcTextView.setText(searchWrd);
+                resolveSearch(searchWrd);
+            }
+        }
+    }
 
     @Override
     public void onItemSelect(Citizen citizen, View view) {
