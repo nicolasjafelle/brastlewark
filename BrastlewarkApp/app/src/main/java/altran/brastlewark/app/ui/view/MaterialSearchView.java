@@ -211,7 +211,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
             showVoice(true);
         }
 
-        if (onQueryChangeListener != null && !TextUtils.equals(newText, oldQueryText)) {
+        if (onQueryChangeListener != null && oldQueryText != null && !TextUtils.equals(newText, oldQueryText)) {
             onQueryChangeListener.onQueryTextChange(newText.toString());
         }
         oldQueryText = newText.toString();
@@ -493,6 +493,7 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
             return;
         }
 
+        oldQueryText = null;
         searchSrcTextView.getText().clear();
         dismissSuggestions();
         clearFocus();
@@ -502,7 +503,6 @@ public class MaterialSearchView extends FrameLayout implements Filter.FilterList
             searchViewListener.onSearchViewClosed();
         }
         isSearchOpen = false;
-
     }
 
     /**

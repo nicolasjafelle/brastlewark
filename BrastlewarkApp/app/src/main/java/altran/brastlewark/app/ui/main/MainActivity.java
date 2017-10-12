@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,6 +64,7 @@ public class MainActivity extends AbstractAppCompatActivity implements MainFragm
 
             @Override
             public boolean onQueryTextChange(String query) {
+                Log.i("SEARCH_VIEW", query);
                 return resolveSearch(query);
             }
         });
